@@ -24,7 +24,7 @@
 
 ---
 
-## 🛠️ Setup Instructions
+## Setup Instructions
 
 1. **Clone the Repository:**
    ```bash
@@ -44,7 +44,7 @@
 
 ---
 
-## ⚙️ Running Migrations
+## Running Migrations
 
 ```bash
 python manage.py makemigrations
@@ -59,7 +59,7 @@ python manage.py createsuperuser
 
 ---
 
-## ▶️ Run the Project
+## Run the Project
 
 ```bash
 python manage.py runserver
@@ -69,7 +69,7 @@ Visit: http://127.0.0.1:8000/
 
 ---
 
-## 🔍 Testing Features
+## Testing Features
 
 - **Login/Register** and navigate to your profile to edit interests, disliked topics, subscriptions.
 - **Read Articles** to trigger automatic interest detection.
@@ -82,7 +82,7 @@ Visit: http://127.0.0.1:8000/
 
 ---
 
-## 📁 Folder Structure (key files)
+## Folder Structure
 - `news_app/models.py`: Models
 - `news_app/forms.py`: ArticleForm with checkbox for tags.
 - `news_app/views.py`: Views including submit, toggle favorite, and feed logic.
