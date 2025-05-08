@@ -14,8 +14,7 @@
   - Articles matching interests are posted.
   - Articles under subscribed topics are published.
   - Articles by favorite editors are released.
-- **Feed:** View all articles with options to:
-  - Sort by latest or most reacted.
+- **Feed:** View all articles:
   - Load dynamically with pagination (10 articles at a time).
 - **Recommendations:** Related articles are suggested based on shared tags.
 - **Reactions:** Like or react to articles.
