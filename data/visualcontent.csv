@@ -1,0 +1,13 @@
+ID,Name,Description,File URL,File Type,CSS Class,Article ID
+1,Hero Image,,"https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_homework2/refs/heads/main/assets/Fighting_game_community_tournament_organizer_beginner_s_guide_to_formats_081A_3dVvy.webp",image,hero-image,
+2,SEA Showmatch Hero,"SEA Showmatch Banner","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_homework2/refs/heads/main/assets/Screenshot_20-2-2025_111243_www.youtube.com.jpeg",image,hero-image,1
+3,SEA Showmatch Video,"SEA Showmatch Highlight Video","https://www.youtube.com/embed/tjGNpprWSu4",video,video-embed,1
+4,Drivals vs MyPro Image,"Drivals vs MyPro Match","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_homework2/refs/heads/main/assets/Screenshot_20-2-2025_111411_www.youtube.com.jpeg",image,article-image,2
+5,Drivals vs MyPro Video,"Drivals vs MyPro Match Video","https://www.youtube.com/embed/0vU_UCsT1wU?si=C_n2b60xXrLVPAoM",video,video-embed,2
+6,KnockOut Festival Image,"KnockOut Festival Promo","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_homework2/refs/heads/main/assets/Screenshot_20-2-2025_111340_www.youtube.com.jpeg",image,article-image,3
+7,MSI Tekken 8 Tournament Image,"MSI Tekken 8 Event","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_homework2/refs/heads/main/assets/20241228_164504_IMG_7574.jpg",image,article-image,4
+8,placeholder 1,"placeholder 1","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_hw3/refs/heads/main/assets/shutterstock_1087798475_vdlnnh.webp",image,article-image,5
+9,placeholder 2,"placeholder 2","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_hw3/refs/heads/main/assets/FGC-1-1536x864.jpg",image,article-image,6
+10,placeholder 3,"placeholder 3","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_hw3/refs/heads/main/assets/DSC_5325.jpg",image,article-image,7
+11,placholder 4,"placeholder 4","https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_hw3/refs/heads/main/assets/0_8a19WS7lxLJN3JSD.jpg",image,article-image,8
+12,placeholder 5,"placeholder 5","https://www.youtube.com/embed/dUKsTx45Q3I?si=2ek2gooMdrp5plN_",video,video-embed,8

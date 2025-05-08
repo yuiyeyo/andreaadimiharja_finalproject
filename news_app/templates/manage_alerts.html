@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Your Notifications</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">Mark All as Read</button>
+</form>
+
+<ul>
+    {% for notification in notifications %}
+        <li {% if not notification.is_read %} style="font-weight: bold;" {% endif %}>
+            {{ notification.message }} ({{ notification.created_at }})
+        </li>
+    {% empty %}
+        <li>No notifications yet.</li>
+    {% endfor %}
+</ul>
+{% endblock %}

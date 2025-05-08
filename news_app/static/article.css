@@ -1,0 +1,31 @@
+.news-article {
+    max-width: 80vw;
+    margin: 100px auto;
+    background: white;
+    border-radius: 5px;
+    text-align: center;
+    justify-content: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-article h1 {
+    color: #AB0520;
+    font-size: 40px;
+}
+
+.news-article img {
+    width: 100%;
+    border-bottom: 3px solid #0C234B;
+}
+
+.recommended {
+    display: grid;
+    max-width: 40vw;
+    margin: 20px auto;
+    padding: 10px;
+    background: #EEE;
+}
+
+.recommended h2 {
+    color: #0C234B;
+}

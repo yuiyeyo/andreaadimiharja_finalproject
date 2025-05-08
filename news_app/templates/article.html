@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+{% block content %}
+<article class="news-article" style="padding-top: 15vh;">
+
+    <form action="{% url 'toggle_favorite_creators' article.creator.id %}" method="POST">
+        {% csrf_token %}
+        {% if article.creator.profile in request.user.profile.favorite_creators.all %}
+            <button type="submit">💔 Unfollow Author</button>
+        {% else %}
+            <button type="submit">❤️ Follow Author</button>
+        {% endif %}
+    </form>    
+
+
+    <article>
+        <h1>{{ article.headline }}</h1>
+    </article>
+    <img src="{{ article.get_image_url }}" alt="{{ article.headline }}">
+
+
+    
+
+    <div class="players-flex">
+        {% if article.video_url %}
+        <div class="media-wrapper">
+            <div class="video-container">
+                <iframe width="560" height="315" src="{{ article.video_url }}" title="YouTube video player" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+        {% elif article.video_filename %}
+        <iframe src="{{ article.get_video_url }}" allowfullscreen></iframe>
+        {% endif %}
+    </div>
+
+    <article>
+    <p>{{ article.content }}</p>
+    </article>
+
+    <button id="like-btn" data-article-id="{{ article.article_id }}">❤️ Like (<span id="like-count">{{ article.likes }}</span>)</button>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const likeBtn = document.getElementById("like-btn");
+        
+            likeBtn.addEventListener("click", function () {
+                const articleId = likeBtn.getAttribute("data-article-id");
+        
+                fetch(`/like/${articleId}/`, { method: "POST" })
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById("like-count").textContent = data.likes;
+                    })
+                    .catch(error => console.error("Error:", error));
+            });
+        });
+    </script>
+
+    {% if user.is_authenticated %}
+    <!--subs to editor-->
+    {% endif %}
+
+    
+    <h2>Comments</h2>
+
+    <div id="comment-list">
+        {% for comment in article.comments.all %}
+            <p><strong>{{ comment.name }}</strong> ({{ comment.created_at|date:"Y-m-d H:i" }}): {{ comment.text }}</p>
+        {% empty %}
+            <p>No comments yet. Be the first to comment!</p>
+        {% endfor %}
+    </div>
+    
+    {% if user.is_authenticated %}
+    <form id="comment-form" method="post" action="{% url 'add_comment' article.pk %}">
+        {% csrf_token %}
+        <input type="text" name="name" id="comment-name" placeholder="Your Name" value="{{ user.username }}" readonly required>
+        <textarea name="text" id="comment-text" placeholder="Write a comment..." required></textarea>
+        <button type="submit">Post Comment</button>
+    </form>
+    {% else %}
+    <p>You must <a href="{% url 'login' %}">log in</a> to post a comment.</p>
+    {% endif %}
+    
+    {% if article.author %}
+    <form method="post" action="{% url 'favorite_editor' article.author.id %}">
+        {% csrf_token %}
+        <button type="submit">❤️ Favorite {{ article.author.username }}</button>
+    </form>
+    {% endif %}
+
+
+    {% if user.is_staff %}
+    <section class="admin-tools">
+        <h2>Admin Tools</h2>
+        <a href="{% url 'edit_article' article.article_id %}">Edit</a>
+        <a href="{% url 'delete_article' article.article_id %}">Delete</a>
+    </section>
+    {% endif %}
+    
+    
+
+
+    <section class="recommended">
+        <h2>Related Articles</h2>
+        <div class="related-grid">
+        <!--    {% for article in articles %}
+        <article>
+            <img src="{{ article.image_url }}" alt="{{ article.headline }}">
+
+            {% if article.article_id %}
+                <h2><a href="{% url 'article_detail' article.article_id %}"> {{ article.headline }}</a></h2>
+            {% else %}
+                <h2>{{ article.headline }}</h2>
+            {% endif %}
+        
+            <p>{{ article.description }}</p>
+        </article>
+        {% endfor %}-->
+            <ul>
+                {% for rec in recommended %}
+                    <li><a href="{% url 'article_detail' rec.article_id %}">{{ rec.headline }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </section>
+
+    <img id="pokemonImage" alt="Pokemon" style="height: 10vh; width: auto;">
+    <div id="weatherInfo"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            fetch("/api/articles/")
+                .then(res => res.json())
+                .then(data => {
+                    let pokemonName = "clodsire";
+                    let city = "Jakarta";
+    
+                    try {
+                        const firstWithData = data.articles.find(row => row.pokemon || row.city);
+                        if (firstWithData) {
+                            if (firstWithData.pokemon && firstWithData.pokemon.trim() !== "") {
+                                pokemonName = firstWithData.pokemon.trim().toLowerCase();
+                            }
+                            if (firstWithData.city && firstWithData.city.trim() !== "") {
+                                city = firstWithData.city.trim();
+                            }
+                        }
+                    } catch (e) {
+                        console.warn("Failed to read Pokémon/City from API, using defaults.");
+                    }
+    
+                    fetchPokemon(pokemonName);
+                    fetchWeather(city);
+                })
+                .catch(err => {
+                    console.warn("API error. Using default Pokémon and city.", err);
+                    fetchPokemon("clodsire");
+                    fetchWeather("Jakarta");
+                });
+    
+            function fetchPokemon(pokemonName) {
+                fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`)
+                    .then(res => {
+                        if (!res.ok) throw new Error("Pokémon not found");
+                        return res.json();
+                    })
+                    .then(data => {
+                        const imgUrl = data.sprites.front_default;
+                        const pokemonImg = document.getElementById("pokemonImage");
+                        if (pokemonImg) {
+                            pokemonImg.src = imgUrl;
+                            pokemonImg.alt = pokemonName;
+                            pokemonImg.style.height = "10vh";
+                            pokemonImg.style.width = "auto";
+                        }
+                    })
+                    .catch(err => {
+                        console.warn(`Failed to fetch Pokémon "${pokemonName}".`, err);
+                    });
+            }
+    
+            function fetchWeather(city) {
+                fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=71641bfcde97ceb8207cba67d649c5fa&units=metric`)
+                    .then(res => res.json())
+                    .then(data => {
+                        const weatherDiv = document.getElementById("weatherInfo");
+                        if (weatherDiv) {
+                            weatherDiv.innerText = `🌤️ ${city} Weather: ${data.weather[0].main}, ${data.main.temp}°C`;
+                        }
+                    })
+                    .catch(err => {
+                        console.warn("Weather API error:", err);
+                    });
+            }
+    
+            const commentForm = document.getElementById("comment-form");
+            if (commentForm) {
+                commentForm.addEventListener("submit", function (event) {
+                    event.preventDefault();
+    
+                    const commentName = document.getElementById("comment-name").value;
+                    const commentText = document.getElementById("comment-text").value;
+    
+                    fetch("{% url 'add_comment' article.article_id %}", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded"
+                        },
+                        body: new URLSearchParams({
+                            name: commentName,
+                            text: commentText
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.message) {
+                            const commentList = document.getElementById("comment-list");
+                            const newComment = document.createElement("p");
+                            newComment.innerHTML = `<strong>${data.name}</strong> (${data.created_at}): ${data.text}`;
+                            commentList.appendChild(newComment);
+                            document.getElementById("comment-name").value = "";
+                            document.getElementById("comment-text").value = "";
+                        }
+                    });
+                });
+            }
+        });
+    </script>
+    
+
+</article>
+{% endblock %}

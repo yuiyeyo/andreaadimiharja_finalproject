@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% block content %}
+<header class="hero" style="padding-top: 20vh; z-index: 50;">
+    {% for visual in global_visuals %}
+        {% if visual.file_type == "image" and visual.css_class == "hero-image" %}
+            <img src="{{ visual.file_url }}" alt="{{ visual.description }}" class="{{ visual.css_class }}">
+        {% elif visual.file_type == "video" and visual.css_class == "hero-video" %}
+            <iframe src="{{ visual.file_url }}" class="{{ visual.css_class }}" allowfullscreen></iframe>
+        {% endif %}
+    {% endfor %}
+
+    <h1>PlusFrame Combo</h1>
+    <p>Your daily source for Indonesian Fighting Game E-Sport news</p>
+    {% if highlight_article %}
+        <a href="{% url 'article_detail' highlight_article.article_id %}" class="cta-button">Read Today's Highlight</a>
+    {% endif %}
+</header>
+<body class="homepage">
+    {% if user.is_staff %}
+    <section class="admin-tools" style="display: flex; flex-direction: column; align-items: center;">
+        <h2>Admin Tools</h2>
+        <a href="{% url 'submit_article' %}" class="btn">Add New Article</a>
+        <a href="{% url 'submit_advertisement' %}" class="btn">Add Advertisement</a>
+    </section>
+    {% endif %}
+    <!--<section class="news-grid" style="padding-top: 10vh;" id="articlesContainer">
+        {% for article in articles %}
+        <article>
+            <img src="{{ article.get_image_url }}" alt="{{ article.headline }}">
+
+            {% if article.article_id %}
+                <h2><a href="{% url 'article_detail' article.article_id %}"> {{ article.headline }}</a></h2>
+            {% else %}
+                <h2>{{ article.headline }}</h2>
+            {% endif %}
+        
+            <p>{{ article.description }}</p>
+        </article>
+        {% endfor %}
+    </section> -->
+    <section class="news-grid" id="articlesContainer">    
+        <article>
+            {% for article in articles %}
+            {% if article.article_id %}
+                <img src="{{ article.get_image_url }}" alt="{{ article.headline }}">
+                <h2><a href="{% url 'article_detail' article.article_id %}">{{ article.headline }}</a></h2>
+            <!--{% else %}
+                <h2>{{ article.headline }}</h2>-->
+            {% endif %}
+            <p>{{ article.content|truncatewords:15 }}</p>
+            {% empty %}
+            <p>No articles available.</p>
+            {% endfor %}
+        </article> 
+</section>
+
+
+</body>
+
+{% endblock %}

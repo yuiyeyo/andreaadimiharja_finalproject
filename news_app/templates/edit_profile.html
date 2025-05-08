@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="padding-top: 15vh;">Edit Your Profile</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Changes</button>
+</form>
+<a class="menubutton" href="{% url 'logout' %}">Logout</a>
+{% endblock %}

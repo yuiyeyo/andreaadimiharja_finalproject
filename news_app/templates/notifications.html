@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 style="padding-top: 20vh;">Your Notifications</h1>
+<ul>
+  {% for alert in alerts %}
+    <li>
+      {{ alert.message }} <small>({{ alert.timestamp }})</small>
+    </li>
+  {% empty %}
+    <li>No notifications yet.</li>
+  {% endfor %}
+</ul>
+{% endblock %}

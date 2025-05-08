@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% block content %}
+<div id="feed-container" style="padding-top: 20vh; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px;">
+    {% for article in page_obj %}
+        <div class="article-card">
+            <h2><a href="{% url 'article_detail' article.article_id %}">{{ article.headline }}</a></h2>
+            <p>{{ article.created_at }}</p>
+            <img src="{{ article.get_image_url }}" alt="{{ article.headline }}" style="width: 100%; max-width: 400px;">
+        </div>
+    {% endfor %}
+</div>
+
+<div id="loading" style="display: none; text-align: center;">Loading more articles...</div>
+<div id="no-more-articles" style="display: none; text-align: center; color: gray; margin: 20px 0;">
+    No more articles to load.
+</div>
+
+
+<script>
+let page = 2; 
+let loading = false;
+let noMoreArticles = false;
+
+window.addEventListener('scroll', () => {
+    if (noMoreArticles || loading) return;
+
+    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 200) {
+        loadMoreArticles();
+    }
+});
+
+function loadMoreArticles() {
+    loading = true;
+    const loadingIndicator = document.getElementById('loading');
+    if (loadingIndicator) loadingIndicator.style.display = 'block';
+
+    fetch(`/feed_api/?page=${page}`, {
+        headers: { 'X-Requested-With': 'XMLHttpRequest' }
+    })
+    .then(response => response.json())
+    .then(data => {
+        const feedContainer = document.getElementById('feed-container');
+        const loadingIndicator = document.getElementById('loading');
+        const noMoreArticlesDiv = document.getElementById('no-more-articles');
+
+        data.articles.forEach(article => {
+            const articleElement = document.createElement('div');
+            articleElement.className = 'article-card';
+            articleElement.innerHTML = `
+                <h2><a href="/articles/${article.id}/">${article.headline}</a></h2>
+                <img src="${article.image_url}" alt="${article.headline}" style="width: 100%; max-width: 400px;">
+            `;
+            feedContainer.appendChild(articleElement);
+        });
+
+        if (!data.has_next || data.articles.length === 0) {
+            noMoreArticles = true;
+            if (noMoreArticlesDiv) noMoreArticlesDiv.style.display = 'block';
+        } else {
+            page += 1;
+        }
+
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+        loading = false;
+    })
+
+    .catch(error => {
+        console.error('Error loading more articles:', error);
+        loading = false;
+        if (loadingIndicator) loadingIndicator.style.display = 'none';
+    });
+}
+
+</script>
+{% endblock %}

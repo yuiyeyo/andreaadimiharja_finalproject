@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% block content %}
+  <h2 style="padding-top: 15vh;">Search News</h2>
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Search</button>
+  </form>
+
+  {% if articles %}
+    <h3>Results:</h3>
+    {% for article in articles %}
+      <p><a href="{% url 'article_detail' article.article_id %}">{{ article.headline }}</a></p>
+    {% endfor %}
+  {% else %}
+    <p>No results found.</p>
+    <p>Read these instead!</p>
+    {% if suggestions %}
+      <ul>
+        {% for article in suggestions %}
+
+          <li><a href="{% url 'article_detail' article.article_id %}">{{ article.headline }}</a></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+{% endblock %}

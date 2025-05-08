@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2 style="padding-top: 15vh;">Register</h2>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="username" placeholder="Username" required><br>
+    <input type="password" name="password" placeholder="Password" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+
+    <select name="country" required>
+        <option value="">Select your country</option>
+        {% for country in countries %}
+            <option value="{{ country }}">{{ country }}</option>
+        {% endfor %}
+    </select><br>
+
+    <button type="submit">Register</button>
+</form>
+{% endblock %}

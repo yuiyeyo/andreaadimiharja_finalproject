@@ -1,0 +1,156 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}PlusFrame Combo{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+    <link rel="stylesheet" href="{% static 'utilitystyles.css' %}">
+    <link rel="stylesheet" href="{% static 'article.css' %}">
+    {% load static %}
+    <script src="{% static 'script.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js" integrity="sha512
+dfX5uYVXzyU8+KHqj8bjo7UkOdg18PaOtpa48djpNbZHwExddghZ+ZmzWT06R5v6NSk3ZUfsH6FNEDepLx9hP
+ Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+    <nav class="navbar" style="height: 10vh;">
+        <button class="hamburger" id="menuButton" aria-label="Toggle navigation" aria-expanded="false" style="display: none;">
+            ☰
+        </button>
+        <div>
+            <!--{% if featured_article %}
+            <a style="color:#F5F5F5;" href="{% url 'article_detail' featured_article.article_id %}">Featured Article</a>
+            {% endif %}-->
+            {% if user.is_authenticated %}
+            <a style="color:#F5F5F5;" href="{% url 'edit_profile' %}">Profile</a>
+            {% else %}
+            <a style="color:#F5F5F5;" href="{% url 'login' %}">Login</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a style="color:#F5F5F5;" href="{% url 'manage_alerts' %}">Notifications</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a style="color:#F5F5F5;" href="{% url 'submit_article' %}">Submit an Article</a>
+            {% endif %}
+            {% if user.is_authenticated %}
+            <a style="color:#F5F5F5;" href="{% url 'logout' %}">Logout</a>
+            {% endif %}
+        </div>
+        <div class="logo">
+            <a href="{% url 'home' %}">
+                <div class="logo-container">
+                    <img src="https://raw.githubusercontent.com/yuiyeyo/andreaadimiharja_homework2/refs/heads/main/assets/EWGF.webp" 
+                         alt="PlusFrame Combo Logo" 
+                         class="logo-img"
+                         style="object-fit: cover;">
+                </div>
+                
+            </a>
+        </div>
+        
+        <div class="otherbuttons">
+            <form action="{% url 'search_articles' %}" method="GET" class="searchbar">
+                <input type="text" id="searchInput" placeholder="Search News...">
+                <button href="{% url 'search_articles' %}">Search</a>
+            </form>
+        </div>
+    </nav>
+
+    <!--<div class="mobile-menu" id="mobileMenu">
+        <a href="article.html">Featured Article</a>
+        <a href="#">Login</a>
+    </div>-->
+
+ 
+    <div class="mobile-menu" id="mobileMenu">
+        {% if featured_article %}
+        <a href="{% url 'article_detail' featured_article.article_id %}">Featured Article</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'edit_profile' %}">Profile</a>
+        {% else %}
+        <a href="{% url 'login' %}">Login</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'submit_article' %}">Submit an Article</a>
+        {% endif %}
+        {% if user.is_authenticated %}
+        <a href="{% url 'logout' %}">Logout</a>
+        {% endif %}
+    </div>
+ 
+
+
+    <!--{% for article in articles %}
+        <div>
+            <div class="mobile-menu" id="mobileMenu">
+                <a href="{% url 'article_detail' article.article_id %}">Featured Article</a>
+                <a href="#">Login</a>
+            </div>
+        </div>
+    {% endfor %}-->
+    
+    <div class="content">
+        {% block content %}{% endblock %}
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="#">Terms of Use</a> | 
+            <a href="#">Privacy Policy</a>
+        </div>
+        <p>© PlusFrame Combo 2025. All rights reserved.</p>
+    </footer>
+    <script>
+        
+
+        //fetch("https://pokeapi.co/api/v2/pokemon/clodsire")
+        //    .then(response => response.json())
+        //    .then(data => {
+        //        document.getElementById("pokemon").innerHTML = `
+        //            <p>Pokémon of the day: <strong>${data.name}</strong></p>
+        //            <img src="${data.sprites.front_default}" alt="${data.name}">
+        //        `;
+        //    })
+        //    .catch(error => {
+        //        document.getElementById("pokemon").innerText = "Pokémon data unavailable";
+        //        console.error("Pokémon API error:", error);
+        //    });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var menuButton = document.getElementById("menuButton");
+            var mobileMenu = document.getElementById("mobileMenu");
+
+            function toggleMenu() {
+                var isExpanded = menuButton.getAttribute("aria-expanded") === "true";
+                menuButton.setAttribute("aria-expanded", !isExpanded);
+                mobileMenu.classList.toggle("show");
+
+                
+                if (!isExpanded) {
+                    setTimeout(() => {
+                        mobileMenu.querySelector("a").focus();
+                    }, 100);
+                }
+            }
+
+            function closeMenuOnEsc(event) {
+                if (event.key === "Escape" && mobileMenu.classList.contains("show")) {
+                    toggleMenu();
+                    menuButton.focus();
+                }
+            }
+
+           
+            menuButton.addEventListener("click", toggleMenu);
+
+            
+            document.addEventListener("keydown", closeMenuOnEsc);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,251 @@
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #F5F5F5;
+    color: #333;
+    overflow-x: hidden;
+}
+
+
+
+.hamburger{
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.hamburger
+{
+    display: none;
+    color: #F5F5F5;
+}
+
+.mobile-menu {
+    display: none;
+    position: fixed;
+    top: 13vh;
+    z-index: 100;
+    left: 0;
+    background-color: #0C234B;
+    width: 100vw;
+    text-align: left;
+    padding: 10px 0;
+}
+
+.mobile-menu a:focus {
+    background-color: #AB0520; 
+}
+
+button:focus,
+.mobile-menu a:focus {
+    outline: 2px solid #FFD700; 
+}
+
+.mobile-menu a {
+    display: block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+}
+
+.mobile-menu a:hover {
+    background-color: #AB0520;
+}
+
+.mobile-menu.show {
+    display: block;
+}
+
+.mobile-menu.active {
+    display: flex;
+}
+
+.navbar {
+    background-color: #0C234B;
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    position: fixed;
+    height: 10vh;
+    width: 100vw;
+    top: 0;
+    z-index: 1000;
+    overflow-y: hidden;
+}
+
+.logo-container {
+    padding-top: 10vh;
+    width: 100%;
+    /*height: 20px;*/
+    overflow: hidden;
+    object-fit: cover;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-img {
+    width: 100%;
+    /*height: 10vh;*/
+    object-fit: cover;
+    object-position: top; 
+}
+
+
+.hero {
+    padding: 100px 20px;
+    text-align: center;
+    background-color: #AB0520;
+    color: white;
+}
+
+.news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 10px;
+    padding: 20px;
+}
+
+.news-grid article {
+    background: white;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.news-grid article img {
+    width: 100%;
+}
+
+.article-img {
+    width: 100%;
+}
+
+footer {
+    background: #0C234B;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+form {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="file"],
+textarea,
+select {
+    width: 100%;
+    padding: 10px 12px;
+    margin: 10px 0 20px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #4a90e2;
+    outline: none;
+}
+
+button[type="submit"],
+button {
+    background-color: #4a90e2;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover,
+button:hover {
+    background-color: #357ABD;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+h2, h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.errorlist {
+    color: red;
+    list-style: none;
+    margin: 5px 0;
+    padding: 0;
+}
+
+
+form.searchbar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px; 
+    margin-top: 20px;
+    background: none;
+}
+
+
+form.searchbar input[type="text"] {
+    padding: 8px 12px;
+    width: 250px;
+    border: 1px ;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+
+form.searchbar button {
+    padding: 8px 16px;
+    background-color: #4a90e2;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+form.searchbar button:hover {
+    background-color: #357ABD;
+}
+
+
+@media (max-width: 768px) {
+    .nav-links {
+        display: none; 
+    }
+
+    .hamburger {
+        display: block; 
+    }
+
+    .secondary-link {
+        display: none; 
+    }
+}
